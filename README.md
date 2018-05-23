@@ -4,7 +4,7 @@
 ### [is-sorted](https://github.com/dcousens/is-sorted) 
 > A small module to check if an Array is sorted.
 
-```
+```javascript
 /**
  * 两个参数，一个数组 array，一个 comparator。
  * Array.isArray() 判断参数是否是数组，遍历数组，使用comparator(array[i - 1], array[i]) 判断，若大于 0，则返回 false，否则返回 true
@@ -27,7 +27,7 @@ module.exports = function checksort (array, comparator) {
 ### [array-first](https://github.com/jonschlinkert/array-first) 
 > Get the first element or first n elements of an array.
 
-```
+```javascript
 /**
  * 两个参数，一个数组 array, 一个返回数量 num，默认为 1.
  * 校验参数，是否为数组，数组长度。
@@ -55,7 +55,7 @@ module.exports = function arrayFirst(arr, num) {
 ### [array-last](https://github.com/jonschlinkert/array-last)
 > Return the last element or last n elements in an array. Faster than `.slice`
 
-```
+```javascript
 /**
  * 返回数组最后一个或n个元素
  * 同样两个参数
@@ -91,7 +91,7 @@ module.exports = function last(arr, n) {
 ### [arr-flatten] (https://github.com/jonschlinkert/arr-flatten)
 > Recursively flatten an array or arrays. This is the fastest implementation of array flatten.
 
-```
+```javascript
 /**
  * 数组扁平化
  * 遍历数组，递归调用，判断 Array.isArray
@@ -114,7 +114,7 @@ function flat(arr, res) {
 ### [dedupe](https://github.com/seriousManual/dedupe)
 > easy deduplication of array values
 
-```
+```javascript
 /**
  * 数组去重
  * @params {Array} client 需要处理的数组
@@ -142,4 +142,87 @@ function dedupe (client, hasher) {
 }
 
 module.exports = dedupe
+```
+### [array-range](https://github.com/mattdesl/array-range)
+> creates a new array with given range
+
+```javascript
+/**
+ * 支持一个参数和两个参数,返回前闭后开的区间 `[...)`
+ * newArray(5) => [0, 1, 2, 3, 4]
+ * newArray(1, 5) => [1, 2, 3, 4]
+ */
+module.exports = function newArray(start, end) {
+    var n0 = typeof start === 'number',
+        n1 = typeof end === 'number'
+
+    if (n0 && !n1) {
+        end = start
+        start = 0
+    } else if (!n0 && !n1) { // 这个步骤和下面 `|` 操作感觉有点重复
+        start = 0
+        end = 0
+    }
+
+    start = start|0
+    end = end|0
+    var len = end-start
+    if (len<0)
+        throw new Error('array length must be positive')
+    
+    var a = new Array(len)
+    for (var i=0, c=start; i<len; i++, c++)
+        a[i] = c
+    return a
+}
+```
+### [arr-diff](https://github.com/jonschlinkert/arr-diff)
+> Returns an array with only the unique values present in all given arrays using strict equality for comparisons.
+
+```javascript
+/**
+ * 参数数量不限，可以为多个数组
+ * 返回第一个数组于剩余数组不共有的元素
+ * diff([1, 2, 3, 4, 4], [5, 2, 7], [1, 2], [3]) => [4, 4]
+ */
+'use strict';
+
+module.exports = function diff(arr/*, arrays*/) {
+  var len = arguments.length;
+  var idx = 0;
+  while (++idx < len) {
+    arr = diffArray(arr, arguments[idx]);
+  }
+  return arr;
+};
+
+function diffArray(one, two) {
+  if (!Array.isArray(two)) { // 第二个参数不是数组的时候，返回第一个数组
+    return one.slice();
+  }
+
+  var tlen = two.length
+  var olen = one.length;
+  var idx = -1;
+  var arr = [];
+
+  while (++idx < olen) { // 双重循环对比，不相同则存起来，相同则跳过
+    var ele = one[idx];
+
+    var hasEle = false;
+    for (var i = 0; i < tlen; i++) {
+      var val = two[i];
+
+      if (ele === val) {
+        hasEle = true;
+        break;
+      }
+    }
+
+    if (hasEle === false) {
+      arr.push(ele);
+    }
+  }
+  return arr;
+}
 ```
