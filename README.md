@@ -88,7 +88,7 @@ module.exports = function last(arr, n) {
   return res;
 };
 ```
-### [arr-flatten] (https://github.com/jonschlinkert/arr-flatten)
+### [arr-flatten](https://github.com/jonschlinkert/arr-flatten)
 > Recursively flatten an array or arrays. This is the fastest implementation of array flatten.
 
 ```javascript
@@ -226,3 +226,137 @@ function diffArray(one, two) {
   return arr;
 }
 ```
+### [filled-array](https://github.com/sindresorhus/filled-array)
+> Returns an array filled with the specified input
+
+```javascript
+/**
+ * @param {Function|Any} item 填充函数或值，如果是函数，则需要调用参数 index，传入的count，以及填充的数组
+ * @param {Number} n 填充个数
+ * filledArray('a', 3) => ['a', 'a', 'a']
+ * filledArray(i => i * 2, 3) => [0, 2, 4]
+ */
+'use strict';
+module.exports = function (item, n) {
+	var ret = new Array(n);
+	var isFn = typeof item === 'function';
+
+	if (!isFn && typeof ret.fill === 'function') {
+		return ret.fill(item);  // es6
+	}
+
+	for (var i = 0; i < n; i++) {
+		ret[i] = isFn ? item(i, n, ret) : item;
+	}
+
+	return ret;
+};
+
+```
+### [map-array](https://github.com/parro-it/map-array)
+> Map object keys and values into an array.
+
+```javascript
+/**
+ * 
+ */
+'use strict';
+const map = require('map-obj');
+
+function mapToArray(obj, fn) {
+	let idx = 0;
+	const result = map(obj, (key, value) =>
+		[idx++, fn(key, value)]
+	);
+	result.length = idx;
+	return Array.from(result);
+}
+
+module.exports = mapToArray;
+```
+### [in-array](https://github.com/jonschlinkert/in-array)
+> Return true if a value exists in an array. Faster than using indexOf and won't blow up on null values.
+
+```javascript
+/**
+ * emmmm...看起来比较常规的实现呢，就是一个遍历比对，存在返回true，不存在返回false
+ * issue里有人做过benchmark测试，数组长度大于5后，的确比indexOf快
+ */
+'use strict';
+
+module.exports = function inArray (arr, val) {
+  arr = arr || [];
+  var len = arr.length;
+  var i;
+
+  for (i = 0; i < len; i++) {
+    if (arr[i] === val) {
+      return true;
+    }
+  }
+  return false;
+};
+```
+### [unordered-array-remove](https://github.com/mafintosh/unordered-array-remove)
+> Efficiently remove an element from an unordered array without doing a splice
+
+```javascript
+/**
+ * 将数组最后一位移出来去占需要删除的位置,返回删除的位置的值
+ * 不过这样最终打乱了原数组的排序
+ */
+module.exports = remove
+
+function remove (arr, i) {
+  if (i >= arr.length || i < 0) return
+  var last = arr.pop()
+  if (i < arr.length) {
+    var tmp = arr[i]
+    arr[i] = last
+    return tmp
+  }
+  return last
+}
+```
+### [swap-array](https://github.com/michaelzoidl/swap-array)
+> Swaps the index / position of an array
+
+```javascript
+/**
+ * 交换数组指定两个位置的值
+ * 为不改变元素组，新开辟空间并重新赋值
+ */
+export default (Arr, Caller, Target) => {
+  let Instance = Arr.constructor();
+  let Stash = Arr;
+
+  let InstanceType = Array.isArray(Instance) ? 'array' : typeof Instance;
+
+  // Check types and throw err if no arr is passed
+  if(InstanceType !== 'array') throw '[ERR] SwapArray expects a array as first param';
+
+  // Copy the Arr-Content into new Instance - so we don't overwrite the passed array
+  Stash.map((s, i) => Instance[i] = s);
+
+  // Update indexes
+  Instance[Caller] = Instance.splice(Target, 1, Instance[Caller])[0];
+
+  return Instance;
+}
+```
+### [mirrarray](https://github.com/johnwquarles/mirrarray)
+> NPM module for creating a keymirror object from an array of strings
+
+```javascript
+/**
+ * mirrarray(['this', 'that', 'another']);
+ * {
+ *   this: 'this',
+ *   that: 'that',
+ *   another: 'another'
+ * }
+ */
+
+```
+### [group-array](https://github.com/doowb/group-array)
+> Group array of objects into lists.
