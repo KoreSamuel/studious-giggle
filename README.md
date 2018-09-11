@@ -1,7 +1,7 @@
 # studious-giggle
 
 ## done
-### [is-sorted](https://github.com/dcousens/is-sorted) 
+### [is-sorted](https://github.com/dcousens/is-sorted)
 > A small module to check if an Array is sorted.
 
 ```javascript
@@ -24,7 +24,7 @@ module.exports = function checksort (array, comparator) {
   return true
 }
 ```
-### [array-first](https://github.com/jonschlinkert/array-first) 
+### [array-first](https://github.com/jonschlinkert/array-first)
 > Get the first element or first n elements of an array.
 
 ```javascript
@@ -169,7 +169,7 @@ module.exports = function newArray(start, end) {
     var len = end-start
     if (len<0)
         throw new Error('array length must be positive')
-    
+
     var a = new Array(len)
     for (var i=0, c=start; i<len; i++, c++)
         a[i] = c
@@ -258,7 +258,7 @@ module.exports = function (item, n) {
 
 ```javascript
 /**
- * 
+ *
  */
 'use strict';
 const map = require('map-obj');
@@ -360,3 +360,36 @@ export default (Arr, Caller, Target) => {
 ```
 ### [group-array](https://github.com/doowb/group-array)
 > Group array of objects into lists.
+
+### [pad-left](https://github.com/jonschlinkert/pad-left)
+> Left pad a string with zeros or a specified string. Fastest implementation
+
+```javascript
+/**
+ * var pad = require('pad-left');
+  pad(  '4', 4, '0') // 0004
+  pad( '35', 4, '0') // 0035
+  pad('459', 4, '0') // 0459
+ */
+'use strict';
+
+var repeat = require('repeat-string');
+
+module.exports = function padLeft(str, num, ch) {
+  str = str.toString();
+
+  if (typeof num === 'undefined') {
+    return str;
+  }
+
+  if (ch === 0) {
+    ch = '0';
+  } else if (ch) {
+    ch = ch.toString();
+  } else {
+    ch = ' ';
+  }
+
+  return repeat(ch, num - str.length) + str;
+};
+```
